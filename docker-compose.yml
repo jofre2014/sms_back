@@ -1,0 +1,30 @@
+version : '3.6'
+services:
+  
+  springappserver:
+    build:
+      context: . 
+      dockerfile: springapp.dockerfile
+    ports: 
+      - "8086:8086"
+    networks:
+      - net-spring-db
+    depends_on:
+      - mysqldb
+  
+  mysqldb:
+    build:
+      context: . 
+      dockerfile: mysqldb.dockerfile
+    ports:
+      - "33065:3306"
+    networks:
+      - net-spring-db
+    environment:
+      MYSQL_DATABASE: contactos_ws
+      MYSQL_ROOT_PASSWORD: admin
+    container_name: mysqldb
+
+networks:
+  net-spring-db:
+    driver: bridge
